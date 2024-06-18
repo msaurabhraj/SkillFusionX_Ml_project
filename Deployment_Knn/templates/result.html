@@ -1,0 +1,365 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Player Position Prediction</title>
+  </head>
+  <body>
+    <div>
+      <h2>{{ prediction_text }}</h2>
+      <a href="/">Back to Home</a>
+    </div>
+  </body>
+</html> -->
+<!--<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prediction Result Design</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #eeeff6; /* Dark Slate */
+        color: #020202; /* Silver Fox */
+        background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Ffootball-wallpaper&psig=AOvVaw1wEsUe3xlXLtgxXZxmOsVw&ust=1718824653496000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCMig4fvu5YYDFQAAAAAdAAAAABAE");
+        background-repeat: no-repeat;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+      }
+
+      .prediction-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .prediction-box {
+        background-color: #be4f0c; /* Are ya yellow?! */
+        color: #f5f7fc;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        animation: slide-in 0.5s ease-in-out forwards;
+        opacity: 0;
+        width: 80%;
+        text-align: center;
+      }
+
+      .chart-container {
+        background-color: #030f25; /* Slightly lighter background for contrast */
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 10px;
+        animation: fade-in 0.5s ease-in-out forwards;
+        opacity: 0;
+        width: calc(50% - 40px); /* Adjusted for margin */
+        height: 40vh;
+        color: #f5f7fc;
+      }
+
+      .charts-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slide-in {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .chart-container {
+          width: 80%;
+          height: 30vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Prediction Result</h1>
+    <div class="prediction-container">
+      {% for position in predicted_positions %}
+      <div
+        class="prediction-box"
+        style="animation-delay: {{ loop.index * 0.5 }}s;"
+      >
+        <p>
+          The best position for {{ player_name }} is
+          <strong>{{ position }}</strong>.
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if clustering_data.message %}
+    <h2>{{ clustering_data.message }}</h2>
+    {% else %}
+    <div class="charts-wrapper">
+      <div class="chart-container" style="animation-delay: 1s">
+        <h2>Cluster Scatter Plot - DBSCAN</h2>
+        <canvas id="dbscanChart"></canvas>
+      </div>
+      <div class="chart-container" style="animation-delay: 1.5s">
+        <h2>Cluster Scatter Plot - KMeans</h2>
+        <canvas id="kmeansChart"></canvas>
+      </div>
+      <div class="chart-container" style="animation-delay: 2s">
+        <h2>Cluster Scatter Plot - Agglomerative Clustering</h2>
+        <canvas id="aggloChart"></canvas>
+      </div>
+      <div class="chart-container" style="animation-delay: 2.5s">
+        <h2>Cluster Scatter Plot - Mean Shift</h2>
+        <canvas id="meanShiftChart"></canvas>
+      </div>
+    </div>
+
+    <script>
+      function renderChart(chartId, chartData) {
+          var ctx = document.getElementById(chartId).getContext('2d');
+          new Chart(ctx, {
+              type: 'scatter',
+              data: {
+                  datasets: chartData
+              },
+              options: {
+                  title: {
+                      display: true,
+                      text: chartId.replace('Chart', '')
+                  },
+                  scales: {
+                      x: {
+                          title: {
+                              display: true,
+                              text: 'Principal Component 1'
+                          }
+                      },
+                      y: {
+                          title: {
+                              display: true,
+                              text: 'Principal Component 2'
+                          }
+                      }
+                  }
+              }
+          });
+      }
+
+      const clusteringData = {{ clustering_data|safe }};
+      console.log(clusteringData); // Log the clustering data for debugging
+      if (!clusteringData.message) {
+          renderChart('dbscanChart', clusteringData.dbscan);
+          renderChart('kmeansChart', clusteringData.kmeans);
+          renderChart('aggloChart', clusteringData.agglo);
+          renderChart('meanShiftChart', clusteringData.mean_shift);
+      }
+    </script>
+    {% endif %}
+  </body>
+</html> -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prediction Result Design</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #1d1e22;
+        color: #d4d4dc;
+        background-image: url("../static/images/3d-background-with-hexagonal-shapes-texture.jpg");
+        background-size: cover;
+        background-position: center;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(29, 30, 34, 0.8);
+        backdrop-filter: blur(5px);
+        z-index: -1;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+      }
+
+      .prediction-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .prediction-box {
+        background-color: #ec7f37;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        animation: slide-in 0.5s ease-in-out forwards;
+        opacity: 0;
+        width: calc(50% - 40px);
+        text-align: center;
+        font-size: large;
+        color: aliceblue;
+      }
+
+      .chart-container {
+        background-color: #2b312c;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 10px;
+        animation: fade-in 0.5s ease-in-out forwards;
+        opacity: 0;
+        width: calc(50% - 40px);
+        height: 40vh;
+      }
+
+      .charts-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slide-in {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .prediction-box,
+        .chart-container {
+          width: 80%;
+          height: 30vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Prediction Result</h1>
+    <div class="prediction-container">
+      {% for position in predicted_positions %}
+      <div
+        class="prediction-box"
+        style="animation-delay: {{ loop.index * 0.5 }}s;"
+      >
+        <p>
+          The best position for {{ player_name }} is
+          <strong>{{ position }}</strong>.
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if clustering_data.message %}
+    <h2>{{ clustering_data.message }}</h2>
+    {% else %}
+    <div class="charts-wrapper">
+      <div class="chart-container" style="animation-delay: 1s">
+        <h2>Cluster Scatter Plot - DBSCAN</h2>
+        <canvas id="dbscanChart"></canvas>
+      </div>
+      <div class="chart-container" style="animation-delay: 1.5s">
+        <h2>Cluster Scatter Plot - KMeans</h2>
+        <canvas id="kmeansChart"></canvas>
+      </div>
+      <div class="chart-container" style="animation-delay: 2s">
+        <h2>Cluster Scatter Plot - Agglomerative Clustering</h2>
+        <canvas id="aggloChart"></canvas>
+      </div>
+      <div class="chart-container" style="animation-delay: 2.5s">
+        <h2>Cluster Scatter Plot - Mean Shift</h2>
+        <canvas id="meanShiftChart"></canvas>
+      </div>
+    </div>
+
+    <script>
+      function renderChart(chartId, chartData) {
+          var ctx = document.getElementById(chartId).getContext('2d');
+          new Chart(ctx, {
+              type: 'scatter',
+              data: {
+                  datasets: chartData
+              },
+              options: {
+                  title: {
+                      display: true,
+                      text: chartId.replace('Chart', '')
+                  },
+                  scales: {
+                      x: {
+                          title: {
+                              display: true,
+                              text: 'Principal Component 1'
+                          }
+                      },
+                      y: {
+                          title: {
+                              display: true,
+                              text: 'Principal Component 2'
+                          }
+                      }
+                  }
+              }
+          });
+      }
+
+      const clusteringData = {{ clustering_data|safe }};
+      console.log(clusteringData);
+      if (!clusteringData.message) {
+          renderChart('dbscanChart', clusteringData.dbscan);
+          renderChart('kmeansChart', clusteringData.kmeans);
+          renderChart('aggloChart', clusteringData.agglo);
+          renderChart('meanShiftChart', clusteringData.mean_shift);
+      }
+    </script>
+    {% endif %}
+  </body>
+</html>
