@@ -88,6 +88,27 @@
             flex-wrap: wrap;
             justify-content: center;
         }
+        .try-again-container {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Add this line to create space below the button */
+}
+
+.try-again-button {
+    background-color: #d45d79;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: large;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.try-again-button:hover {
+    background-color: #b41e3e;
+}
+
 
         @keyframes fade-in {
             from {
@@ -136,6 +157,9 @@
             <strong>{{ position }}</strong>
         </div>
         {% endfor %}
+    </div>
+    <div class="try-again-container">
+        <a href="http://127.0.0.1:5000/" class="try-again-button">Try Again</a>
     </div>
     {% if clustering_data.message %}
     <h2>{{ clustering_data.message }}</h2>
